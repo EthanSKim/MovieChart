@@ -12,6 +12,7 @@ function Detail() {
         ).json();
         setDetail(json.data.movie);
         setLoading(false);
+        console.log(json.data.movie);
     }
     useEffect(() => {
         getMovie();
@@ -24,7 +25,7 @@ function Detail() {
             <div className="spinner-border ms-3" role="status" aria-hidden="true"></div>
         </div> : 
         <div className="container d-flex mt-5">
-            <img src={detail.medium_cover_image}/>
+            <img src={detail.large_cover_image}/>
             <div className="container px-5 me-5 position-relative">
                 <div className="d-flex align-items-baseline ">
                     <h1 className="me-2">{detail.title}</h1>
@@ -37,6 +38,7 @@ function Detail() {
                 </div>
                 <hr className="m-0 mb-3"/>
                 <p>{detail.description_full}</p>
+                <iframe width="100%" height="365" src={`https://www.youtube.com/embed/${detail.yt_trailer_code}`} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 <div className="d-flex">
                     <div className="position-absolute bottom-0 start-0">
                         <i className="ms-5">Genre: {detail.genres.map(g => {
