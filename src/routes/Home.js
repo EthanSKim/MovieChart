@@ -1,16 +1,18 @@
 import React from "react";
 import Movie from "../components/Movie";
 import {useEffect, useState} from "react"
+import API_KEY from "../apiKey";
 
 function Home() {
     const [loading, setLoading] = useState(true);
     const [movies, setMovies] = useState([]);
     const getMovies = async() => {
+      console.log(API_KEY);
       const response = await fetch(
-        `https://yts.mx/api/v2/list_movies.json?minimum_rating=9.0&sort_by=year`
+        `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`
       );
       const json = await response.json();
-      setMovies(json.data.movies);
+      setMovies(json.results);  
       setLoading(false);
     }
     useEffect(() => {
@@ -26,7 +28,7 @@ function Home() {
         <div className="container mt-3">
           <h1>Today's Top 20 Movies</h1>
           <div className="row justify-content-center gap-5">{movies.map(movie => (
-            <Movie className="col-sm-3" key={movie.id} id={movie.id} coverImg={movie.medium_cover_image} title={movie.title} summary={movie.summary}/>
+            <Movie className="col-sm-3" key={movie.id} id={movie.id} coverImg={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} title={movie.title} summary={movie.overview}/>
             ))}
           </div>
         </div>}
