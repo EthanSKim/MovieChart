@@ -3,8 +3,10 @@ import Movie from "../components/Movie";
 import {useEffect, useState} from "react"
 import API_KEY from "../apiKey";
 import Navigation from "../components/Navigation";
+import { useApolloClient } from "@apollo/client";
 
 function Home() {
+    const client = useApolloClient();
     const [loading, setLoading] = useState(true);
     const [movies, setMovies] = useState([]);
     const [searchVal, setSearchVal] = useState("");
@@ -18,8 +20,16 @@ function Home() {
       setLoading(false);
     }
     useEffect(() => {
-      getMovies();
-    }, []);
+      client.query({
+        query: gql`
+          {
+            allMovies {
+              title
+            }
+          }
+        `
+      }).then((results) => console.log(results));
+    }, [client]);
 
     return (
       <div>
